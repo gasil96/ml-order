@@ -1,0 +1,27 @@
+spring:
+  main:
+    allow-circular-references: true
+    allow-bean-definition-overriding: true
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+  datasource:
+    url: jdbc:mysql://${MYSQL_HOST:localhost}:3306/ibiza?createDatabaseIfNotExist=true&useSSL=false&useTimezone=true&serverTimezone=America/Belem
+    username: ${MYSQL_USER:root}
+    password: ${MYSQL_PASSWORD:root}
+    driver-class-name: com.mysql.jdbc.Driver
+  jpa:
+    database: mysql
+    hibernate:
+      ddl-auto: create
+    generate-ddl: true
+
+application:
+  title: '@project.artifactId@'
+  version: '@project.version@'
+  description: '@project.description@'
+
+integrations:
+  ml-api-register:
+    url: ${ML_API_REGISTER}
+    name: ml-register
