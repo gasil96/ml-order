@@ -5,6 +5,10 @@ spring:
   mvc:
     pathmatch:
       matching-strategy: ant_path_matcher
+  data:
+    mongodb:
+      uri: ${MONGO_URI:mongodb://root:root@localhost:27017}
+      database: ${MONGO_DATABASE:atenas}
   datasource:
     url: jdbc:mysql://${MYSQL_HOST:localhost}:3306/ibiza?createDatabaseIfNotExist=true&useSSL=false&useTimezone=true&serverTimezone=America/Belem
     username: ${MYSQL_USER:root}
