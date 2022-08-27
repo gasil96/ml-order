@@ -11,7 +11,6 @@ public enum ErroCodes {
 	ILLEGAL_ARGUMENT_EXCEPTION("Argument not valid."),
 	BUSINESS_EXCEPTION("Failure related to a business rule."),
 
-	UF_NOT_VALID("UF Not valid."),
 
 	FEIGN_FAILED("Failed to access recourse with feing client.");
 

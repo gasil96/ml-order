@@ -8,17 +8,17 @@ spring:
   data:
     mongodb:
       uri: ${MONGO_URI:mongodb://root:root@localhost:27017}
-      database: ${MONGO_DATABASE:atenas}
+      database: ${MONGO_DATABASE:floripa}
   datasource:
-    url: jdbc:mysql://${MYSQL_HOST:localhost}:3306/ibiza?createDatabaseIfNotExist=true&useSSL=false&useTimezone=true&serverTimezone=America/Belem
+    url: jdbc:mysql://${MYSQL_HOST:localhost:3306/ibiza?createDatabaseIfNotExist=true&useSSL=false&useTimezone=true&serverTimezone=UTC}
     username: ${MYSQL_USER:root}
     password: ${MYSQL_PASSWORD:root}
-    driver-class-name: com.mysql.jdbc.Driver
   jpa:
     database: mysql
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
     generate-ddl: true
+    open-in-view: true
 
 application:
   title: '@project.artifactId@'
