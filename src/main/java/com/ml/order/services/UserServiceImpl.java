@@ -1,5 +1,6 @@
 package com.ml.order.services;
 
+import com.ml.order.Utils;
 import com.ml.order.dtos.UserDTO;
 import com.ml.order.entities.User;
 import com.ml.order.repositories.UserRepository;
@@ -52,14 +53,10 @@ public class UserServiceImpl implements UserService {
 		log.info("UserServiceImpl.listAll - Input - pageSize: {} ", pageable.getPageSize());
 
 		Page<User> entities = userRepository.findAll(pageable);
-		Page<UserDTO> userDTO = mapEntityPageIntoDtoPage(entities, UserDTO.class);
+		Page<UserDTO> userDTO = Utils.mapEntityPageIntoDtoPage(entities, UserDTO.class);
 
 		log.debug("UserServiceImpl.listAll - End - listSize: {} ", userDTO.getContent().size());
 		return userDTO;
-	}
-
-	private <D, T> Page<D> mapEntityPageIntoDtoPage(Page<T> entities, Class<D> dtoClass) {
-		return entities.map(objectEntity -> mapper.map(objectEntity, dtoClass));
 	}
 
 }

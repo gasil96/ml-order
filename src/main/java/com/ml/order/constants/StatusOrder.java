@@ -7,7 +7,7 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum StatusOrder {
 
-	ERRO("Error"), AVAILABLE("Available"), IN_TRANSACTION("In transaction"), FINISHED("Finished");
+	ERRO("Error"), IN_TRANSACTION("In transaction"), FINISHED("Finished");
 
 	private String description;
 

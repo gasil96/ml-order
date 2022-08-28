@@ -1,6 +1,8 @@
 package com.ml.order.services;
 
+import com.ml.order.Utils;
 import com.ml.order.constants.StatusOrder;
+import com.ml.order.constants.TypeOrder;
 import com.ml.order.dtos.OrderDTO;
 import com.ml.order.entities.Order;
 import com.ml.order.repositories.OrderRepository;
@@ -11,6 +13,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+/**
+ * TODO
+ * CORE
+ * Load Balance
+ * Garbage Collector
+ */
 @Slf4j
 @Service
 public class OrderServiceImpl implements OrderService {
@@ -25,22 +33,49 @@ public class OrderServiceImpl implements OrderService {
 	public Page<OrderDTO> listByStatus(StatusOrder status, Pageable pageable) {
 		log.info("OrderServiceImpl.listByStatus - Input - status: {}, pageSize: {}", status, pageable.getPageSize());
 
-		Page<Order> entities = orderRepository.findAll(pageable); //TODO: change this
-		Page<OrderDTO> ordersDTO = mapEntityPageIntoDtoPage(entities, OrderDTO.class);
+		Page<Order> entities = orderRepository.findByStatusOrder(status, pageable);
+		Page<OrderDTO> ordersDTO = Utils.mapEntityPageIntoDtoPage(entities, OrderDTO.class);
 
 		log.debug("OrderServiceImpl.listByStatus - End - page:{}", ordersDTO);
 		return ordersDTO;
 	}
 
 	@Override
-	public void orderEvent(OrderDTO order) {
-		log.info("OrderServiceImpl.orderEvent - Input - walletBuy:{}, walletSell:{}", order.getWalletBuyId(), order.getWalletSellId());
-		//TODO: impl
-		log.debug("OrderServiceImpl.orderEvent - End - order:{}", order);
+	public Page<OrderDTO> listByType(TypeOrder type, Pageable pageable) {
+		log.info("OrderServiceImpl.listByType - Input - type: {}, pageSize: {}", type, pageable.getPageSize());
+
+		Page<Order> entities = orderRepository.findByTypeOrderAndStatusOrderIsNull(type, pageable);
+		Page<OrderDTO> ordersDTO = Utils.mapEntityPageIntoDtoPage(entities, OrderDTO.class);
+
+		log.debug("OrderServiceImpl.listByType - End - page:{}", ordersDTO);
+		return ordersDTO;
 	}
 
-	private <D, T> Page<D> mapEntityPageIntoDtoPage(Page<T> entities, Class<D> dtoClass) {
-		return entities.map(objectEntity -> mapper.map(objectEntity, dtoClass));
+	@Override
+	public void finished(OrderDTO orderDTO) {
+		log.info("OrderServiceImpl.finished - Input - walletID:{}", orderDTO.getWalletID());
+		Order order = mapper.map(orderDTO, Order.class);
+
+		order.setStatusOrder(StatusOrder.FINISHED);
+		orderRepository.save(order);
+
+		log.debug("OrderServiceImpl.finished - End - order:{}", orderDTO);
+	}
+
+	@Override
+	public void orderEvent(OrderDTO orderDTO) {
+		log.info("OrderServiceImpl.orderEvent - Input - walletID:{}", orderDTO.getWalletID());
+		Order order = mapper.map(orderDTO, Order.class);
+
+		orderRepository.save(order);
+		registerEvent();
+
+		log.debug("OrderServiceImpl.orderEvent - End - order:{}", orderDTO);
+	}
+
+	//TODO: pedding impl
+	private void registerEvent() {
+		System.err.println("registerEvent");
 	}
 
 }

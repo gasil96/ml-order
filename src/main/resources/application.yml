@@ -25,6 +25,9 @@ application:
   version: '@project.version@'
   description: '@project.description@'
 
+scheduled-times:
+  start-process: 0/05 0/1 * 1/1 * ?
+
 integrations:
   ml-api-register:
     url: ${ML_API_REGISTER}

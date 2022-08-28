@@ -5,16 +5,14 @@ import com.ml.order.dtos.WalletDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.math.BigDecimal;
+
 public interface WalletService {
 
 	void create(WalletDTO walletDTO);
 
-	void update(WalletDTO walletDTO);
-
-	void delete(WalletDTO walletDTO);
-
-	Page<WalletDTO> listAll(WalletDTO walletDTO, Pageable pageable);
+	Page<WalletDTO> listAll(Pageable pageable);
 	
-	void orderFinished(TypeOrder type, Long walletId);
+	void orderFinished(TypeOrder type, BigDecimal orderPrice, Long orderQuantity, Long walletId);
 	
 }

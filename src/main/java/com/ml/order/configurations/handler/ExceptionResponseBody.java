@@ -1,5 +1,6 @@
 package com.ml.order.configurations.handler;
 
+import com.ml.order.constants.ErrorCodes;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -20,4 +21,12 @@ public class ExceptionResponseBody implements Serializable {
 		this.message = message;
 		this.details = Collections.singletonList(details);
 	}
+
+	public ExceptionResponseBody(ErrorCodes errorCode, List<String> details) {
+		this.code = errorCode.name();
+		this.message = errorCode.getMessage();
+		this.details = Collections.unmodifiableList(details);
+	}
+
+
 }

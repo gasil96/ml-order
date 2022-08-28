@@ -28,46 +28,24 @@ public class WalletController {
 	@Autowired
 	private WalletService walletService;
 
-	@Operation(summary = "create")
-	@PostMapping("/v1/wallets/create")
-	public ResponseEntity<Void> create(@Valid @RequestBody WalletDTO walletDTO) {
-		log.info("WalletController.create - Input - wallet.user.email:{} ", walletDTO.getUser().getEmail());
-
+	@Operation(summary = "add wallet in user")
+	@Deprecated
+	@PostMapping("/v1/wallets/add")
+	public ResponseEntity<Void> addInUser(@Valid @RequestBody WalletDTO walletDTO) {
+		log.info("WalletController.add - Input - wallet.user.email:{} ", walletDTO.getUser().getEmail());
 
 		walletService.create(walletDTO);
 
-		log.debug("WalletController.create - End - wallet: {}}", walletDTO);
+		log.debug("WalletController.add - End - wallet: {}}", walletDTO);
 		return ResponseEntity.status(HttpStatus.CREATED).build();
-	}
-
-	@Operation(summary = "update")
-	@PutMapping("/v1/wallets/update")
-	public ResponseEntity<Void> update(@Valid @RequestBody WalletDTO walletDTO) {
-		log.info("WalletController.update - Input - wallet.user.email:{} ", walletDTO.getUser().getEmail());
-
-		walletService.update(walletDTO);
-
-		log.debug("WalletController.update - End - wallet: {}}", walletDTO);
-		return ResponseEntity.status(HttpStatus.OK).build();
-	}
-
-	@Operation(summary = "delete")
-	@DeleteMapping("/v1/wallets/delete")
-	public ResponseEntity<Void> delete(@RequestBody WalletDTO walletDTO) {
-		log.info("WalletController.delete - Input - wallet.user.email:{} ", walletDTO.getUser().getEmail());
-
-		walletService.delete(walletDTO);
-
-		log.debug("WalletController.delete - End - wallet: {}}", walletDTO);
-		return ResponseEntity.status(HttpStatus.OK).build();
 	}
 
 	@Operation(summary = "list all")
 	@GetMapping("/v1/wallets/list/")
-	public ResponseEntity<Page<WalletDTO>> listAll(@RequestBody WalletDTO walletDTO, Pageable pageable) {
-		log.info("WalletController.listAll - Input - wallet.user.email:{} ", walletDTO.getUser().getEmail());
+	public ResponseEntity<Page<WalletDTO>> listAll(Pageable pageable) {
+		log.info("WalletController.listAll - Input");
 
-		Page<WalletDTO> wallets = walletService.listAll(walletDTO, pageable);
+		Page<WalletDTO> wallets = walletService.listAll(pageable);
 
 		log.debug("WalletController.listAll - End - size: {}}", wallets.getContent().size());
 		return ResponseEntity.ok().body(wallets);
