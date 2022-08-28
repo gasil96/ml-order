@@ -30,7 +30,7 @@ public class WalletController {
 
 	@Operation(summary = "create")
 	@PostMapping("/v1/wallets/create")
-	public ResponseEntity<Void> create(@RequestBody @Valid WalletDTO walletDTO) {
+	public ResponseEntity<Void> create(@Valid @RequestBody WalletDTO walletDTO) {
 		log.info("WalletController.create - Input - wallet.user.email:{} ", walletDTO.getUser().getEmail());
 
 
@@ -42,7 +42,7 @@ public class WalletController {
 
 	@Operation(summary = "update")
 	@PutMapping("/v1/wallets/update")
-	public ResponseEntity<Void> update(@RequestBody @Valid WalletDTO walletDTO) {
+	public ResponseEntity<Void> update(@Valid @RequestBody WalletDTO walletDTO) {
 		log.info("WalletController.update - Input - wallet.user.email:{} ", walletDTO.getUser().getEmail());
 
 		walletService.update(walletDTO);

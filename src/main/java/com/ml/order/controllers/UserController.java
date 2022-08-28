@@ -31,7 +31,7 @@ public class UserController {
 
 	@Operation(summary = "create")
 	@PostMapping("/v1/users/create")
-	public ResponseEntity<Void> create(@RequestBody @Valid UserDTO userDTO) {
+	public ResponseEntity<Void> create(@Valid @RequestBody UserDTO userDTO) {
 		log.info("WalletController.create - Input - user.email:{} ", userDTO.getEmail());
 
 		userService.create(userDTO);
@@ -42,7 +42,7 @@ public class UserController {
 
 	@Operation(summary = "update")
 	@PutMapping("/v1/users/update")
-	public ResponseEntity<Void> update(@RequestBody @Valid UserDTO userDTO) {
+	public ResponseEntity<Void> update(@Valid @RequestBody UserDTO userDTO) {
 		log.info("WalletController.update - Input - user.email:{} ", userDTO.getEmail());
 
 		userService.update(userDTO);

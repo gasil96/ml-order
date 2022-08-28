@@ -26,6 +26,6 @@ public class WalletDTO implements Serializable {
 
 	@Builder.Default
 	private Long product = 0L;
-	private User user;
+	private UserDTO user;
 
 }

@@ -1,6 +1,5 @@
 package com.ml.order.dtos;
 
-import com.ml.order.entities.Wallet;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -25,6 +24,6 @@ public class UserDTO implements Serializable {
 	@NotNull(message = "Email is required")
 	@Email(message = "Insert valid email")
 	private String email;
-	private Wallet wallet;
+	private WalletDTO wallet;
 
 }
