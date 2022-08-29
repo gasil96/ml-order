@@ -12,6 +12,7 @@ public enum ErrorCodes {
 	BUSINESS_EXCEPTION("Failure related to a business rule."),
 	WALLET_NOT_FOUND_EXCEPTION("Wallet not found."),
 	VALIDATION_FAILED("Validation failed"),
+	REGISTER_FAILED("Failed register log"),
 
 	FEIGN_FAILED("Failed to access recourse with feing client.");
 

@@ -1,10 +1,12 @@
 package com.ml.order.services;
 
 import com.ml.order.Utils;
+import com.ml.order.constants.ErrorCodes;
 import com.ml.order.constants.StatusOrder;
 import com.ml.order.constants.TypeOrder;
 import com.ml.order.dtos.OrderDTO;
 import com.ml.order.entities.Order;
+import com.ml.order.exceptions.BusinessException;
 import com.ml.order.repositories.OrderRepository;
 import com.ml.order.services.rabbit.RabbitMqSender;
 import lombok.extern.slf4j.Slf4j;
@@ -58,10 +60,11 @@ public class OrderServiceImpl implements OrderService {
 	@Override
 	public void finished(OrderDTO orderDTO) {
 		log.info("OrderServiceImpl.finished - Input - walletID:{}", orderDTO.getWalletID());
+		orderDTO.setStatusOrder(StatusOrder.FINISHED);
 		Order order = mapper.map(orderDTO, Order.class);
 
-		order.setStatusOrder(StatusOrder.FINISHED);
 		orderRepository.save(order);
+		registerEvent(orderDTO);
 
 		log.debug("OrderServiceImpl.finished - End - order:{}", orderDTO);
 	}
@@ -78,7 +81,11 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	private void registerEvent(OrderDTO orderDTO) {
-		rabbitMqSender.send(orderDTO);
+		try {
+			rabbitMqSender.send(orderDTO);
+		} catch (Exception e) {
+			throw new BusinessException(ErrorCodes.FEIGN_FAILED.getMessage());
+		}
 	}
 
 }

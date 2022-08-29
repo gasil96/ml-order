@@ -38,7 +38,6 @@ public class OrderProcessorImpl implements OrderProcessor {
 		ordersSELL.forEach(sell -> ordersBUY.forEach(buy -> {
 			if (Objects.equals(sell.getPrice(), buy.getPrice()) && Objects.equals(sell.getQuantity(), buy.getQuantity())) {
 				pushOrderConfirm(buy, sell);
-				register(buy, sell);
 			}
 		}));
 
@@ -56,11 +55,6 @@ public class OrderProcessorImpl implements OrderProcessor {
 		} catch (Exception e) {
 			throw new BusinessException(ErrorCodes.BUSINESS_EXCEPTION.getMessage());
 		}
-	}
-
-	private void register(OrderDTO buy, OrderDTO sell) {
-//		registerService.registerOrder(buy);
-//		registerService.registerOrder(sell);
 	}
 
 }
