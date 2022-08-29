@@ -8,7 +8,7 @@ spring:
   data:
     mongodb:
       uri: ${MONGO_URI:mongodb://root:root@localhost:27017}
-      database: ${MONGO_DATABASE:floripa}
+      database: ${MONGO_DATABASE:aruba}
   datasource:
     url: jdbc:mysql://${MYSQL_HOST:localhost:3306/ibiza?createDatabaseIfNotExist=true&useSSL=false&useTimezone=true&serverTimezone=UTC}
     username: ${MYSQL_USER:root}
@@ -19,6 +19,14 @@ spring:
       ddl-auto: update
     generate-ddl: true
     open-in-view: true
+  rabbitmq:
+    host: localhost
+    username: guest
+    password: guest
+    port: 15672
+    exchange: register.exchange
+    queue: register.queue
+    routingkey: register.routingkey
 
 application:
   title: '@project.artifactId@'
@@ -30,5 +38,9 @@ scheduled-times:
 
 integrations:
   ml-api-register:
-    url: ${ML_API_REGISTER}
+    url: ${ML_API_REGISTER:localhost:8081}
     name: ml-register
+
+logging:
+  level:
+    root: INFO

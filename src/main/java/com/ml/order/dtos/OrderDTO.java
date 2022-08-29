@@ -6,7 +6,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.Id;
 
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
@@ -21,7 +20,6 @@ public class OrderDTO implements Serializable {
 
 	private static final long serialVersionUID = 186572189214748082L;
 
-	@Id
 	private String id;
 
 	@NotNull(message = "Type operation is required")

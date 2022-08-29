@@ -7,8 +7,6 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDateTime;
-
 @Slf4j
 @EnableScheduling
 @Component
@@ -23,7 +21,6 @@ public class OrderScheduler {
 
 		orderProcessor.checkMatch();
 
-		System.err.println("Start process:" + LocalDateTime.now());
 		log.debug("OrderScheduler.listener - End");
 	}
 

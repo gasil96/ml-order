@@ -38,21 +38,29 @@ public class OrderProcessorImpl implements OrderProcessor {
 		ordersSELL.forEach(sell -> ordersBUY.forEach(buy -> {
 			if (Objects.equals(sell.getPrice(), buy.getPrice()) && Objects.equals(sell.getQuantity(), buy.getQuantity())) {
 				pushOrderConfirm(buy, sell);
+				register(buy, sell);
 			}
 		}));
 
 		log.info("OrderProcessorImpl.checkMatch - End");
 	}
 
+
 	private void pushOrderConfirm(OrderDTO buy, OrderDTO sell) {
 		try {
 			walletService.orderFinished(TypeOrder.BUY, buy.getPrice(), buy.getQuantity(), buy.getWalletID());
 			orderService.finished(buy);
+
 			walletService.orderFinished(TypeOrder.SELL, sell.getPrice(), sell.getQuantity(), sell.getWalletID());
 			orderService.finished(sell);
 		} catch (Exception e) {
 			throw new BusinessException(ErrorCodes.BUSINESS_EXCEPTION.getMessage());
 		}
+	}
+
+	private void register(OrderDTO buy, OrderDTO sell) {
+//		registerService.registerOrder(buy);
+//		registerService.registerOrder(sell);
 	}
 
 }

@@ -6,6 +6,7 @@ import com.ml.order.constants.TypeOrder;
 import com.ml.order.dtos.OrderDTO;
 import com.ml.order.entities.Order;
 import com.ml.order.repositories.OrderRepository;
+import com.ml.order.services.rabbit.RabbitMqSender;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +29,9 @@ public class OrderServiceImpl implements OrderService {
 
 	@Autowired
 	private ModelMapper mapper;
+
+	@Autowired
+	private RabbitMqSender rabbitMqSender;
 
 	@Override
 	public Page<OrderDTO> listByStatus(StatusOrder status, Pageable pageable) {
@@ -68,14 +72,13 @@ public class OrderServiceImpl implements OrderService {
 		Order order = mapper.map(orderDTO, Order.class);
 
 		orderRepository.save(order);
-		registerEvent();
+		registerEvent(orderDTO);
 
 		log.debug("OrderServiceImpl.orderEvent - End - order:{}", orderDTO);
 	}
 
-	//TODO: pedding impl
-	private void registerEvent() {
-		System.err.println("registerEvent");
+	private void registerEvent(OrderDTO orderDTO) {
+		rabbitMqSender.send(orderDTO);
 	}
 
 }
