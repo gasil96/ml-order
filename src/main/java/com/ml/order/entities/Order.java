@@ -45,7 +45,6 @@ public class Order implements Serializable {
 	@NotNull
 	private Long walletID;
 
-	@Field("Date of operation")
 	private LocalDateTime dateOp;
 
 	@PrePersist
