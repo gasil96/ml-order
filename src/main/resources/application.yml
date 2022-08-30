@@ -39,6 +39,7 @@ scheduled-times:
 logging:
   level:
     root: INFO
+
 management:
   endpoint:
     health:
