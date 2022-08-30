@@ -10,9 +10,9 @@ spring:
       uri: ${MONGO_URI:mongodb://root:root@localhost:27017}
       database: ${MONGO_DATABASE:aruba}
   datasource:
-    url: jdbc:mysql://${MYSQL_HOST:localhost:3306/ibiza?createDatabaseIfNotExist=true&useSSL=false&useTimezone=true&serverTimezone=UTC}
-    username: ${MYSQL_USER:root}
-    password: ${MYSQL_PASSWORD:root}
+    url: ${DATASOURCE_URL:jdbc:mysql://localhost:3306/ibiza?createDatabaseIfNotExist=true&useSSL=false&useTimezone=true&serverTimezone=UTC}
+    username: ${DATASOURCE_USERNAME:root}
+    password: ${DATASOURCE_PASSWORD:root}
   jpa:
     database: mysql
     hibernate:
@@ -20,9 +20,9 @@ spring:
     generate-ddl: true
     open-in-view: true
   rabbitmq:
-    host: localhost
-    username: guest
-    password: guest
+    host: ${RABBIT_HOST:localhost}
+    username: ${RABBIT_USERNAME:guest}
+    password: ${RABBIT_PASSWORD:guest}
     port: 15672
     exchange: register.exchange
     queue: register.queue
@@ -35,11 +35,6 @@ application:
 
 scheduled-times:
   start-process: 0/05 0/1 * 1/1 * ?
-
-integrations:
-  ml-api-register:
-    url: ${ML_API_REGISTER:localhost:8081}
-    name: ml-register
 
 logging:
   level:
