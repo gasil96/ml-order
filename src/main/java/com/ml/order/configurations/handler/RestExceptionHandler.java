@@ -15,6 +15,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Slf4j
 @ControllerAdvice
@@ -51,11 +52,14 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 	@Override
 	protected ResponseEntity<Object> handleMethodArgumentNotValid(
 			MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
-		log.error("MethodArgumentNotValid ", ex);
+		log.error("RestExceptionHandler.handleBusinessException ex: {}", ex.getMessage());
 
-		final List<FieldError> fieldErrors = ex.getBindingResult().getFieldErrors();
 		List<String> errors = new ArrayList<>();
-		fieldErrors.forEach(f -> errors.add(String.format("%s : %s", f.getField(), f.getDefaultMessage())));
+
+		if (Objects.nonNull(ex.getBindingResult())) {
+			final List<FieldError> fieldErrors = ex.getBindingResult().getFieldErrors();
+			fieldErrors.forEach(f -> errors.add(String.format("%s : %s", f.getField(), f.getDefaultMessage())));
+		}
 
 		ExceptionResponseBody exceptionResponse = new ExceptionResponseBody(ErrorCodes.VALIDATION_FAILED, errors);
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exceptionResponse);

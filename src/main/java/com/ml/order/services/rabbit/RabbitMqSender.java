@@ -11,12 +11,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class RabbitMqSender {
 
-	private final RabbitTemplate rabbitTemplate;
-
 	@Autowired
-	public RabbitMqSender(RabbitTemplate rabbitTemplate) {
-		this.rabbitTemplate = rabbitTemplate;
-	}
+	public RabbitTemplate rabbitTemplate;
 
 	@Value("${spring.rabbitmq.exchange}")
 	private String exchange;

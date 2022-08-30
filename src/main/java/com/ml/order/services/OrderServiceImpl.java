@@ -17,10 +17,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 /**
- * TODO
  * CORE
- * Load Balance
- * Garbage Collector
  */
 @Slf4j
 @Service
