@@ -30,7 +30,7 @@ public class OrderController {
 	private OrderService orderService;
 
 	@Operation(summary = "order event")
-	@PostMapping("/orders/create-order/")
+	@PostMapping("/v1/orders/create-order")
 	public ResponseEntity<Void> orderEvent(@Valid @RequestBody OrderDTO orderDTO) {
 		log.info("OrderController.orderEvent - Input - orderDTO.type:{} ", orderDTO.getTypeOrder());
 
@@ -41,7 +41,7 @@ public class OrderController {
 	}
 
 	@Operation(summary = "list events by status")
-	@GetMapping("/orders/list")
+	@GetMapping("/v1/orders/list")
 	public ResponseEntity<Page<OrderDTO>> listAll(@RequestParam(required = false) StatusOrder statusOrder, Pageable pageable) {
 		log.info("OrderController.listAll - Input - statusOrder:{} ", statusOrder);
 

@@ -42,13 +42,13 @@ public class UserController {
 
 	@Operation(summary = "update")
 	@PutMapping("/v1/users/update")
-	public ResponseEntity<Void> update(@Valid @RequestBody UserDTO userDTO) {
+	public ResponseEntity<Void> update(@RequestBody UserDTO userDTO) {
 		log.info("WalletController.update - Input - user.email:{} ", userDTO.getEmail());
 
 		userService.update(userDTO);
 
 		log.debug("WalletController.update - End - user: {}}", userDTO);
-		return ResponseEntity.status(HttpStatus.OK).build();
+		return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 	}
 
 	@Operation(summary = "delete")
@@ -59,11 +59,11 @@ public class UserController {
 		userService.delete(userDTO);
 
 		log.debug("WalletController.delete - End - user: {}}", userDTO);
-		return ResponseEntity.status(HttpStatus.OK).build();
+		return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 	}
 
 	@Operation(summary = "list all")
-	@GetMapping("/v1/users/list/")
+	@GetMapping("/v1/users/list")
 	public ResponseEntity<Page<UserDTO>> listAll(Pageable pageable) {
 		log.info("WalletController.delete - Input - Start");
 

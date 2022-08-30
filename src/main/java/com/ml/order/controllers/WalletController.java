@@ -41,7 +41,7 @@ public class WalletController {
 	}
 
 	@Operation(summary = "list all")
-	@GetMapping("/v1/wallets/list/")
+	@GetMapping("/v1/wallets/list")
 	public ResponseEntity<Page<WalletDTO>> listAll(Pageable pageable) {
 		log.info("WalletController.listAll - Input");
 
