@@ -41,15 +41,14 @@ logging:
     root: INFO
 
 management:
-  endpoint:
-    health:
-      show-details: always
-      enabled: true
-    metrics:
-      enabled: true
-    prometheus:
-      enabled: true
   endpoints:
     web:
       exposure:
-        include: 'health,metrics,prometheus'
+        include: 'health,prometheus'
+    enabled-by-default: false
+  endpoint:
+    health:
+      enabled: true
+      show-details: always
+    prometheus:
+      enabled: true
