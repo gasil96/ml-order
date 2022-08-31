@@ -44,3 +44,12 @@ management:
   endpoint:
     health:
       show-details: always
+      enabled: true
+    metrics:
+      enabled: true
+    prometheus:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: 'health,metrics,prometheus'
