@@ -11,7 +11,6 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
-import javax.persistence.PrePersist;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -46,11 +45,5 @@ public class Order implements Serializable {
 	private Long walletID;
 
 	private LocalDateTime dateOp;
-
-	@PrePersist
-	public void prePersist() {
-		dateOp = LocalDateTime.now();
-	}
-
 
 }

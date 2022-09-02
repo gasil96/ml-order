@@ -16,6 +16,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+
 /**
  * CORE
  */
@@ -69,6 +71,7 @@ public class OrderServiceImpl implements OrderService {
 	@Override
 	public void orderEvent(OrderDTO orderDTO) {
 		log.info("OrderServiceImpl.orderEvent - Input - walletID:{}", orderDTO.getWalletID());
+		orderDTO.setDateOp(LocalDateTime.now());
 		Order order = mapper.map(orderDTO, Order.class);
 
 		orderRepository.save(order);
