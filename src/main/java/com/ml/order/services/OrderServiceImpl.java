@@ -79,7 +79,7 @@ public class OrderServiceImpl implements OrderService {
 
 	private void registerEvent(OrderDTO orderDTO) {
 		try {
-			rabbitMqSender.send(orderDTO);
+			rabbitMqSender.sendRegister(orderDTO);
 		} catch (Exception e) {
 			throw new BusinessException(ErrorCodes.FEIGN_FAILED.getMessage());
 		}

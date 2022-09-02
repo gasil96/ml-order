@@ -4,9 +4,7 @@ import com.ml.order.constants.TypeOrder;
 import com.ml.order.dtos.OrderDTO;
 import com.ml.order.exceptions.BusinessException;
 import com.ml.order.services.OrderService;
-import com.ml.order.services.OrderServiceImpl;
-import com.ml.order.services.WalletService;
-import com.ml.order.services.WalletServiceImpl;
+import com.ml.order.services.rabbit.RabbitMqSender;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -38,7 +36,7 @@ public class OrderProcessorTest {
 	private OrderService orderService;
 
 	@Mock
-	private WalletService walletService;
+	private RabbitMqSender rabbitMqSender;
 
 	@Test
 	public void checkMatchEqualsWithSuccess() {
@@ -49,7 +47,7 @@ public class OrderProcessorTest {
 
 		orderProcessor.checkMatch();
 
-		verify(walletService,times(2)).orderFinished(any(), any(), any(), any());
+		verify(rabbitMqSender,times(2)).sendFinishedOrder(any());
 		verify(orderService,times(2)).finished(any());
 	}
 
@@ -62,7 +60,7 @@ public class OrderProcessorTest {
 
 		orderProcessor.checkMatch();
 
-		verify(walletService,times(0)).orderFinished(any(), any(), any(), any());
+		verify(rabbitMqSender,times(0)).sendFinishedOrder(any());
 		verify(orderService,times(0)).finished(any());
 	}
 

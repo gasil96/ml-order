@@ -24,9 +24,12 @@ spring:
     username: ${RABBIT_USERNAME:guest}
     password: ${RABBIT_PASSWORD:guest}
     port: 15672
-    exchange: register.exchange
-    queue: register.queue
-    routingkey: register.routingkey
+    exchange-register: register.exchange
+    queue-register: register.queue
+    routingkey-register: register.routingkey
+    exchange-wallet: wallet.exchange
+    queue-wallet: wallet.queue
+    routingkey-wallet: wallet.routingkey
 
 application:
   title: '@project.artifactId@'

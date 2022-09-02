@@ -13,7 +13,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.util.ReflectionTestUtils;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.verify;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -31,13 +30,22 @@ public class RabbitMqSenderTest {
 
 	@Before
 	public void setUp() {
-		ReflectionTestUtils.setField(springJunitService, "exchange", "register.exchange");
-		ReflectionTestUtils.setField(springJunitService, "routingkey", "register.routingkey");
+		ReflectionTestUtils.setField(springJunitService, "exchangeRegister", "register.exchange");
+		ReflectionTestUtils.setField(springJunitService, "routingkeyRegister", "register.routingkey");
+		ReflectionTestUtils.setField(springJunitService, "exchangeWallet", "wallet.routingkey");
+		ReflectionTestUtils.setField(springJunitService, "routingkeyWallet", "wallet.routingkey");
 	}
 
 	@Test
-	public void sendWithSuccess() {
-		rabbitMqSender.send(OrderDTO.builder().build());
+	public void sendRegisterWithSuccess() {
+		rabbitMqSender.sendRegister(OrderDTO.builder().build());
+
+		verify(rabbitTemplate).convertAndSend(null, null, OrderDTO.builder().build());
+	}
+
+	@Test
+	public void sendWalletWithSuccess() {
+		rabbitMqSender.sendFinishedOrder(OrderDTO.builder().build());
 
 		verify(rabbitTemplate).convertAndSend(null, null, OrderDTO.builder().build());
 	}

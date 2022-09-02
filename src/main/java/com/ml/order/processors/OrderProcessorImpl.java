@@ -5,7 +5,7 @@ import com.ml.order.constants.TypeOrder;
 import com.ml.order.dtos.OrderDTO;
 import com.ml.order.exceptions.BusinessException;
 import com.ml.order.services.OrderService;
-import com.ml.order.services.WalletService;
+import com.ml.order.services.rabbit.RabbitMqSender;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -23,7 +23,7 @@ public class OrderProcessorImpl implements OrderProcessor {
 	private OrderService orderService;
 
 	@Autowired
-	private WalletService walletService;
+	private RabbitMqSender rabbitMqSender;
 
 	@Override
 	public void checkMatch() {
@@ -47,13 +47,13 @@ public class OrderProcessorImpl implements OrderProcessor {
 
 	private void pushOrderConfirm(OrderDTO buy, OrderDTO sell) {
 		try {
-			walletService.orderFinished(TypeOrder.BUY, buy.getPrice(), buy.getQuantity(), buy.getWalletID());
+			rabbitMqSender.sendFinishedOrder(buy);
 			orderService.finished(buy);
 
-			walletService.orderFinished(TypeOrder.SELL, sell.getPrice(), sell.getQuantity(), sell.getWalletID());
+			rabbitMqSender.sendFinishedOrder(sell);
 			orderService.finished(sell);
 		} catch (Exception e) {
-			throw new BusinessException(ErrorCodes.BUSINESS_EXCEPTION.getMessage());
+			throw new BusinessException(ErrorCodes.PUSH_ORDER_CONFIRM_ERRO.getMessage());
 		}
 	}
 
