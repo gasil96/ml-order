@@ -84,7 +84,7 @@ public class OrderServiceImpl implements OrderService {
 		try {
 			rabbitMqSender.sendRegister(orderDTO);
 		} catch (Exception e) {
-			throw new BusinessException(ErrorCodes.FEIGN_FAILED.getMessage());
+			log.error("OrderServiceImpl.registerEvent - Error - Failed Register");
 		}
 	}
 

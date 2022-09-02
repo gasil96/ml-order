@@ -79,31 +79,9 @@ public class OrderServiceTest {
 		verify(rabbitMqSender).sendRegister(ORDER_DTO_MOCK);
 	}
 
-	@Test(expected = BusinessException.class)
-	public void finishedWithBusinessException() {
-		when(mapper.map(ORDER_DTO_MOCK, Order.class)).thenReturn(ORDER_MOCK);
-		doThrow(new BusinessException("")).when(rabbitMqSender).sendRegister(ORDER_DTO_MOCK);
-
-		orderService.finished(ORDER_DTO_MOCK);
-
-		verify(orderRepository).save(ORDER_MOCK);
-		verify(rabbitMqSender).sendRegister(ORDER_DTO_MOCK);
-	}
-
 	@Test
 	public void orderEventWithSuccess() {
 		when(mapper.map(ORDER_DTO_MOCK, Order.class)).thenReturn(ORDER_MOCK);
-
-		orderService.orderEvent(ORDER_DTO_MOCK);
-
-		verify(orderRepository).save(ORDER_MOCK);
-		verify(rabbitMqSender).sendRegister(ORDER_DTO_MOCK);
-	}
-
-	@Test(expected = BusinessException.class)
-	public void orderEventWithBusinessException() {
-		when(mapper.map(ORDER_DTO_MOCK, Order.class)).thenReturn(ORDER_MOCK);
-		doThrow(new BusinessException("")).when(rabbitMqSender).sendRegister(ORDER_DTO_MOCK);
 
 		orderService.orderEvent(ORDER_DTO_MOCK);
 

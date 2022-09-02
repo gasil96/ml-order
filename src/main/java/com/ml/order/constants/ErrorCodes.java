@@ -12,9 +12,7 @@ public enum ErrorCodes {
 	BUSINESS_EXCEPTION("Failure related to a business rule."),
 	VALIDATION_FAILED("Validation failed"),
 	REGISTER_FAILED("Failed register log"),
-	PUSH_ORDER_CONFIRM_ERRO("Failed pushed order confirm"),
-
-	FEIGN_FAILED("Failed to access recourse with feing client.");
+	PUSH_ORDER_CONFIRM_ERRO("Failed pushed order confirm");
 
 	private final String message;
 }
